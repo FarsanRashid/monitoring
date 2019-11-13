@@ -5,10 +5,13 @@ services:
     image: prom/statsd-exporter
     command: "--statsd.mapping-config=/tmp/test-mapping.yml \
         --statsd.listen-udp=:8125 \
-        --web.listen-address=:9102"
+        --web.listen-address=:9105"
     ports:
-      - "9123:9102" # port for prometheus pull
-      - "8125:8125/udp" # port to emit metrics
+      # - "9125:9125"
+      - "8125:8125/udp"
+    # ports:
+    #   - "9123:9105" # port for prometheus pull
+    #   - "8125:8125/udp" # port to emit metrics
     volumes:
       - "./test-mapping.yml:/tmp/test-mapping.yml"
   
