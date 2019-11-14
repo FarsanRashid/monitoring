@@ -4,15 +4,15 @@ services:
   statsd-exporter:
     container_name: statsd-exporter
     image: prom/statsd-exporter
-    command: "--statsd.mapping-config=/tmp/test-mapping.yml \
-        --statsd.listen-udp=:8125 \
-        --web.telemetry-path='/metrics'"
+    command: "--statsd.mapping-config=/tmp/test-mapping.yml \ 
+        --statsd.listen-udp=:8125 \ 
+        --web.telemetry-path='/metrics'"  # url path for metrics
+
     ports:
-      - "9102:9102" # port for prometheus pull
-      - "8125:8125/udp" # port to submit metrics
-  
+      - "9102:9102" # port for prometheus to pull metrics
+      - "8125:8125/udp" # port to submit metrics to statsd exporter
     volumes:
-      - "./test-mapping.yml:/tmp/test-mapping.yml"
+      - "./test-mapping.yml:/tmp/test-mapping.yml" 
   
   prometheus:
     container_name: prometheus
@@ -22,16 +22,16 @@ services:
         --web.listen-address=:9090 \
         --web.page-title='Prometheus - Test Metrics Demo'"
     ports:
-      - "9090:9090" # port for health check of prometheus itself
+      - "9090:9090" # port used by grafana
     volumes:
       - "./prometheus.yml:/tmp/prometheus.yml"
     depends_on:
-      - statsd-exporter
+      - statsd-exporter 
   
   grafana:
     container_name: grafana
     image: grafana/grafana
     ports:
-      - "3000:3000"
+      - "3000:3000" # grafana port
     depends_on:
       - prometheus
