@@ -6,7 +6,6 @@ services:
     image: prom/statsd-exporter
     command: "--statsd.mapping-config=/tmp/test-mapping.yml \
         --statsd.listen-udp=:8125 \
-        --web.listen-address=0.0.0.0:9102 \
         --web.telemetry-path='/metrics'"
     ports:
       - "9102:9102" # port for prometheus pull
@@ -28,3 +27,11 @@ services:
       - "./prometheus.yml:/tmp/prometheus.yml"
     depends_on:
       - statsd-exporter
+  
+  grafana:
+    container_name: grafana
+    image: grafana/grafana
+    ports:
+      - "3000:3000"
+    depends_on:
+      - prometheus
