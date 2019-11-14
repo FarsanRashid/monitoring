@@ -11,5 +11,6 @@ scrape_configs:
   # tells Prometheus to scrape metrics an address over port 9123
   - job_name: 'test_metrics'
     static_configs:
-      - targets: ['127.0.0.1:9102'] # see statsd-exporter further down
+      - targets: ['statsd-exporter:9102'] # see statsd-exporter further down
         labels: {'host': 'test-app-001'} # optional: just a way to identify the system exposing metrics
+    metrics_path: '/metrics'
